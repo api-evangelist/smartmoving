@@ -1,0 +1,71 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: SmartMoving
+providerId: smartmoving
+created: '2026-07-04'
+modified: '2026-07-04'
+reconciled: false
+tags:
+- Moving Software
+- CRM
+- API
+- Rate Limiting
+- Quotas
+description: >-
+  SmartMoving governs the Open API primarily through a monthly call quota tied
+  to the API tier rather than a published per-second request rate. The Basic
+  tier allows 20,000 calls per month and pauses access once the cap is reached
+  until the next billing cycle. The Premium tier allows 125,000 calls per month;
+  when exhausted, Premium customers can buy additional call packs ($149 each, up
+  to five at a time) or enable automatic pack purchases that trigger at 90%
+  usage. The Open API is fronted by Azure API Management, which enforces the
+  quota and standard gateway throttling. The free Lead API is a separate intake
+  endpoint and is not counted against these Open API quotas.
+notes: >-
+  SmartMoving does not publish a fixed numeric per-second/per-minute request
+  rate for the Open API; governance is quota-based per month. Assume Azure API
+  Management may return HTTP 429 on burst throttling in addition to quota
+  exhaustion. Verify exact per-endpoint behavior in the SmartMoving Developer
+  Portal during reconciliation.
+sources:
+- https://help.smartmoving.com/en/articles/9739804-smartmoving-s-open-api
+- https://smartmoving-prod-api-management.developer.azure-api.net/
+responseCodes:
+  throttled: 429
+limits:
+- name: Basic Monthly Quota
+  scope: account
+  metric: requests
+  limit: 20000 per month
+  notes: Read-only Basic tier. Access pauses when reached and resets the next cycle.
+- name: Premium Monthly Quota
+  scope: account
+  metric: requests
+  limit: 125000 per month
+  notes: Read/write Premium tier. Overage handled via purchasable call packs.
+- name: Premium Overage Pack
+  scope: account
+  metric: requests
+  limit: purchasable (up to 5 packs at a time)
+  notes: $149 per additional call pack; optional auto-purchase triggers at 90% usage.
+- name: Gateway Throttling
+  scope: account
+  metric: requests
+  limit: not published
+  notes: Azure API Management may throttle bursts with HTTP 429 independent of the monthly quota.
+- name: Lead API
+  scope: provider-key
+  metric: requests
+  limit: not published
+  notes: Free lead-intake endpoint, separate from Open API quotas.
+policies:
+- name: Quota Reset
+  description: Basic-tier access is restored at the start of the next monthly billing cycle after the cap is hit.
+- name: Overage Packs
+  description: Premium accounts extend capacity by purchasing call packs, up to five at a time, with optional automatic purchase at 90% usage.
+- name: Backoff Strategy
+  description: Clients should implement exponential backoff with jitter and honor Retry-After on HTTP 429 responses from the gateway.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

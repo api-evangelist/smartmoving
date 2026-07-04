@@ -1,0 +1,227 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SmartMoving Open API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "apikey": {
+        "key": "x-api-key",
+        "value": "{{apiKey}}",
+        "in": "header"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": { "name": "Customers", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List customers.", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.smartmoving.com/api/customers?Page=1&PageSize=25" },
+          "docs": "Lists customers with pagination."
+        },
+        {
+          "info": { "name": "Search customers.", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.smartmoving.com/api/customers/search?query=smith" },
+          "docs": "Searches customers by free-text query (Premium)."
+        },
+        {
+          "info": { "name": "Retrieve a customer.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartmoving.com/api/customers/:id",
+            "params": [{ "name": "id", "value": "", "type": "path", "description": "The customer ID." }]
+          },
+          "docs": "Retrieves a single customer by ID."
+        },
+        {
+          "info": { "name": "Create a customer (Premium).", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.smartmoving.com/api/customers",
+            "body": { "type": "json", "data": "{\n  \"name\": \"Jane Smith\",\n  \"emailAddress\": \"jane@example.com\"\n}" }
+          },
+          "docs": "Creates a customer. Requires the Premium tier."
+        },
+        {
+          "info": { "name": "Update a customer (Premium).", "type": "http" },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.smartmoving.com/api/customers/:id",
+            "params": [{ "name": "id", "value": "", "type": "path", "description": "The customer ID." }],
+            "body": { "type": "json", "data": "{\n  \"name\": \"Jane Smith\"\n}" }
+          },
+          "docs": "Updates a customer. Requires the Premium tier."
+        },
+        {
+          "info": { "name": "List a customer's opportunities.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartmoving.com/api/customers/:id/opportunities",
+            "params": [{ "name": "id", "value": "", "type": "path", "description": "The customer ID." }]
+          },
+          "docs": "Lists the opportunities belonging to a customer."
+        },
+        {
+          "info": { "name": "List a customer's storage accounts.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartmoving.com/api/customers/:id/storage-accounts",
+            "params": [{ "name": "id", "value": "", "type": "path", "description": "The customer ID." }]
+          },
+          "docs": "Lists the storage accounts associated with a customer."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Opportunities", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Retrieve an opportunity.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartmoving.com/api/opportunities/:id",
+            "params": [{ "name": "id", "value": "", "type": "path", "description": "The opportunity ID." }]
+          },
+          "docs": "Retrieves an opportunity (quote/estimate) by ID."
+        },
+        {
+          "info": { "name": "Retrieve an opportunity by quote number.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartmoving.com/api/opportunities/quote/:quoteNumber",
+            "params": [{ "name": "quoteNumber", "value": "", "type": "path", "description": "The quote number." }]
+          },
+          "docs": "Retrieves an opportunity by quote number."
+        },
+        {
+          "info": { "name": "List an opportunity's payments.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartmoving.com/api/opportunities/:id/payments",
+            "params": [{ "name": "id", "value": "", "type": "path", "description": "The opportunity ID." }]
+          },
+          "docs": "Lists payments recorded against an opportunity."
+        },
+        {
+          "info": { "name": "List an opportunity's follow-ups (Premium).", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartmoving.com/api/opportunities/:id/follow-ups",
+            "params": [{ "name": "id", "value": "", "type": "path", "description": "The opportunity ID." }]
+          },
+          "docs": "Lists follow-up tasks for an opportunity."
+        },
+        {
+          "info": { "name": "Create an opportunity follow-up (Premium).", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.smartmoving.com/api/opportunities/:id/follow-ups",
+            "params": [{ "name": "id", "value": "", "type": "path", "description": "The opportunity ID." }],
+            "body": { "type": "json", "data": "{}" }
+          },
+          "docs": "Creates a follow-up task for an opportunity. Requires the Premium tier."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Leads", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List leads.", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.smartmoving.com/api/leads?Page=1&PageSize=25" },
+          "docs": "Lists leads with pagination."
+        },
+        {
+          "info": { "name": "Retrieve a lead.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartmoving.com/api/leads/:id",
+            "params": [{ "name": "id", "value": "", "type": "path", "description": "The lead ID." }]
+          },
+          "docs": "Retrieves a single lead by ID."
+        },
+        {
+          "info": { "name": "List lead statuses.", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.smartmoving.com/api/leads/statuses" },
+          "docs": "Lists the account's lead statuses."
+        },
+        {
+          "info": { "name": "List leads by salesperson (Premium).", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartmoving.com/api/leads/salesperson/:id",
+            "params": [{ "name": "id", "value": "", "type": "path", "description": "The salesperson (user) ID." }]
+          },
+          "docs": "Lists leads assigned to a salesperson. Requires the Premium tier."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Lead Provider", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Submit a lead from a provider.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.smartmoving.com/api/leads/from-provider/v2?providerKey={{providerKey}}",
+            "auth": { "type": "none" },
+            "body": { "type": "json", "data": "{\n  \"FirstName\": \"Jane\",\n  \"LastName\": \"Smith\",\n  \"PhoneNumber\": \"5551234567\",\n  \"MoveDate\": \"20260815\"\n}" }
+          },
+          "docs": "Pushes a new lead into a SmartMoving account. Uses a providerKey query parameter, not the Open API key. Free on all plans."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Jobs", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List an opportunity's jobs.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartmoving.com/api/opportunities/:id/jobs",
+            "params": [{ "name": "id", "value": "", "type": "path", "description": "The opportunity ID." }]
+          },
+          "docs": "Lists the jobs (booked moves) for an opportunity."
+        },
+        {
+          "info": { "name": "Create a job (Premium).", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.smartmoving.com/api/opportunities/:id/jobs",
+            "params": [{ "name": "id", "value": "", "type": "path", "description": "The opportunity ID." }],
+            "body": { "type": "json", "data": "{\n  \"jobDate\": \"2026-08-15\",\n  \"type\": \"Move\"\n}" }
+          },
+          "docs": "Creates a job against an opportunity. Requires the Premium tier."
+        },
+        {
+          "info": { "name": "Delete a job (Premium).", "type": "http" },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.smartmoving.com/api/jobs/:id",
+            "params": [{ "name": "id", "value": "", "type": "path", "description": "The job ID." }]
+          },
+          "docs": "Deletes a job by ID. Requires the Premium tier."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Reference Data", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List branches (modeled).", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.smartmoving.com/api/branches" },
+          "docs": "Lists the account's branches (locations). Modeled pending Developer Portal confirmation."
+        },
+        {
+          "info": { "name": "List users (modeled).", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.smartmoving.com/api/users" },
+          "docs": "Lists the account's users. Modeled pending Developer Portal confirmation."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,116 @@
+aid: smartmoving
+name: SmartMoving
+review:
+  question: Does SmartMoving expose a documented public WebSocket API?
+  answer: false
+  date: '2026-07-04'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: false
+  asyncapiScopeNote: |
+    No AsyncAPI document was authored. SmartMoving's public API surface is
+    request/response REST over HTTPS (the Open API fronted by Azure API
+    Management, plus the free Lead Provider intake endpoint). Its only
+    server-initiated mechanism is outbound webhooks - HTTP POST callbacks to a
+    URL the customer registers - which is server-to-endpoint HTTP, not a
+    bidirectional WebSocket transport, and is a Premium-tier feature rather than
+    a streaming API. There is no ws:// or wss:// endpoint to model.
+findings:
+  summary: |
+    SmartMoving does not publish a documented public WebSocket API. SmartMoving
+    is an all-in-one CRM and operations platform for moving companies. It
+    exposes an Open API (base https://api.smartmoving.com/api, fronted by Azure
+    API Management at smartmoving-prod-api-management.developer.azure-api.net)
+    to Growth-plan customers, authenticated with an x-api-key header. The Open
+    API is pure request/response REST covering customers, opportunities
+    (quotes/estimates), leads, jobs (booked moves), payments, and follow-ups. A
+    separate, free Lead Provider API (POST /leads/from-provider/v2, authed by a
+    providerKey query parameter) accepts inbound leads on every plan. Real-time
+    notification is handled by Premium-tier outbound webhooks (HTTP callbacks
+    across leads, jobs, payments, documents, and customers), not by a WebSocket.
+    No ws:// or wss:// endpoint is documented anywhere in SmartMoving's help
+    articles or Developer Portal as of the review date.
+  openSource: |
+    SmartMoving is a proprietary, closed-source SaaS product. No official
+    open-source SDK is published; community wrappers exist (e.g. GitHub
+    Shadow0Broker/SmartMoving and a Make.com community integration), but the
+    platform and API themselves are not open source.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://api.smartmoving.com/api
+      documented: true
+      note: Open API (customers, opportunities, leads, jobs, payments, follow-ups). x-api-key header auth; Azure API Management gateway.
+    - protocol: REST
+      scheme: https
+      baseURL: https://api.smartmoving.com/api/leads/from-provider/v2
+      documented: true
+      note: Free Lead Provider intake endpoint. Authenticated by a providerKey query parameter, available on all plans.
+    - protocol: Webhook
+      scheme: https
+      documented: true
+      note: Premium-tier outbound HTTP POST callbacks across leads, jobs, payments, documents, and customers. Server-to-endpoint HTTP, not WebSocket.
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No WebSocket endpoint is documented anywhere in SmartMoving's API as of the review date.
+  endpointsConfirmedRest:
+    - GET    https://api.smartmoving.com/api/customers
+    - POST   https://api.smartmoving.com/api/customers
+    - GET    https://api.smartmoving.com/api/customers/search
+    - GET    https://api.smartmoving.com/api/customers/{id}
+    - PUT    https://api.smartmoving.com/api/customers/{id}
+    - GET    https://api.smartmoving.com/api/customers/{id}/opportunities
+    - GET    https://api.smartmoving.com/api/customers/{id}/storage-accounts
+    - GET    https://api.smartmoving.com/api/opportunities/{id}
+    - GET    https://api.smartmoving.com/api/opportunities/quote/{quoteNumber}
+    - GET    https://api.smartmoving.com/api/opportunities/{id}/payments
+    - GET    https://api.smartmoving.com/api/opportunities/{id}/follow-ups
+    - POST   https://api.smartmoving.com/api/opportunities/{id}/follow-ups
+    - GET    https://api.smartmoving.com/api/opportunities/{id}/jobs
+    - POST   https://api.smartmoving.com/api/opportunities/{id}/jobs
+    - DELETE https://api.smartmoving.com/api/jobs/{id}
+    - GET    https://api.smartmoving.com/api/leads
+    - GET    https://api.smartmoving.com/api/leads/{id}
+    - GET    https://api.smartmoving.com/api/leads/statuses
+    - GET    https://api.smartmoving.com/api/leads/salesperson/{id}
+    - POST   https://api.smartmoving.com/api/leads/from-provider/v2
+  endpointsModeledRest:
+    - GET    https://api.smartmoving.com/api/branches
+    - GET    https://api.smartmoving.com/api/users
+    - GET    https://api.smartmoving.com/api/service-types
+    - GET    https://api.smartmoving.com/api/referral-sources
+sources:
+  - url: https://help.smartmoving.com/en/articles/9739804-smartmoving-s-open-api
+    type: Documentation
+    note: Open API overview, x-api-key auth, Basic vs Premium tiers, quotas, webhooks, $149/mo Premium.
+  - url: https://smartmoving-prod-api-management.developer.azure-api.net/
+    type: DeveloperPortal
+    note: Azure API Management developer portal hosting the API reference and webhook document.
+  - url: https://smartmoving-prod-api-management.developer.azure-api.net/webhook-document
+    type: Documentation
+    note: Webhook documentation. Outbound HTTP callbacks; no WebSocket.
+  - url: https://help.smartmoving.com/en/articles/3994387-smartmoving-lead-api-integration-guide
+    type: Documentation
+    note: Lead API - POST /leads/from-provider/v2 with providerKey query parameter; free on all plans.
+  - url: https://help.smartmoving.com/en/articles/4547622-lookup-a-provider-key-api-link
+    type: Documentation
+    note: How the per-source provider key / API link is generated.
+  - url: https://www.smartmoving.com/blog/6-ways-to-use-smartmoving-api
+    type: Blog
+    note: Use cases - reporting (Tableau/Power BI), automation (Monday/Asana), webhooks, lead import.
+  - url: https://apps.make.com/smart-moving-zcq4d9
+    type: Integration
+    note: Community Make integration enumerating customer/lead/opportunity/job modules and a Watch Leads webhook trigger.
+  - url: https://github.com/Shadow0Broker/SmartMoving
+    type: SourceCode
+    note: Community SDK confirming customers, opportunities, and leads endpoint paths and x-api-key auth.
+actions:
+  asyncapiPath: null
+  apisYmlUpdated: true
+  reason: |
+    No WebSocket protocol surface exists. SmartMoving's public API is
+    request/response REST (the Open API and the Lead Provider endpoint), and
+    its only server-push mechanism is Premium outbound webhooks (HTTP
+    callbacks). No AsyncAPI document was created because there is no
+    server-push, bidirectional, or streaming WebSocket transport on
+    SmartMoving's API to model.

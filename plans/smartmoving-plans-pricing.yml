@@ -1,0 +1,131 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: SmartMoving
+providerId: smartmoving
+created: '2026-07-04'
+modified: '2026-07-04'
+reconciled: false
+tags:
+- Moving Software
+- CRM
+- API
+- Plans
+- Webhooks
+description: >-
+  SmartMoving's Open API is a paid add-on available to customers on the Growth
+  subscription plan, enabled at Settings > Integrations > SmartMoving API. It
+  ships in two tiers. Basic is free and read-only, capped at 20,000 API calls
+  per month, and is aimed at pulling SmartMoving data into reporting and
+  analytics tools. Premium is $149/month, raises the cap to 125,000 calls per
+  month, adds create/update/delete write access, and includes outbound
+  webhooks. Premium customers can buy additional call packs at $149 each (up to
+  five at a time), and can opt in to automatic pack purchases that trigger at
+  90% usage. A separate Lead API (lead intake from providers/websites) is free
+  and available on every SmartMoving plan with no API subscription required.
+notes: >-
+  Prices and call caps reflect SmartMoving's Open API help documentation as of
+  the review date; the underlying SmartMoving product subscription (Growth
+  plan) is priced separately and is not published as a public list price -
+  contact SmartMoving sales. Verify current figures on the SmartMoving API help
+  article during reconciliation.
+sources:
+- https://help.smartmoving.com/en/articles/9739804-smartmoving-s-open-api
+- https://www.smartmoving.com/blog/6-ways-to-use-smartmoving-api
+- https://help.smartmoving.com/en/articles/3994387-smartmoving-lead-api-integration-guide
+plans:
+- id: smartmoving-lead-api
+  name: Lead API
+  type: free
+  description: >-
+    Free lead-intake API available on every SmartMoving plan with no API
+    subscription. Push new leads into an account from any website or
+    third-party lead provider via POST /leads/from-provider/v2, authenticated
+    by a per-source provider key.
+  entries:
+  - label: Lead Submissions
+    name: lead_submissions
+    type: usage
+    metric: requests
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: free (included on all plans)
+    userMultiplied: false
+  elements:
+  - name: Lead Intake Endpoint
+  - name: Provider Key Auth
+  - name: Branch Routing
+  - name: UTM Tracking
+- id: smartmoving-open-api-basic
+  name: Open API - Basic
+  type: subscription
+  description: >-
+    Read-only Open API tier for data extraction, reporting, and analytics.
+    Included with the Growth plan API add-on at no additional charge. Capped at
+    20,000 calls per month; access pauses when the cap is reached and resets the
+    next cycle.
+  entries:
+  - label: Monthly API Calls
+    name: basic_calls
+    type: usage
+    metric: requests
+    limit: 20000
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: free (Growth plan add-on)
+    userMultiplied: false
+  elements:
+  - name: Read-Only Access
+  - name: Customers Read
+  - name: Opportunities Read
+  - name: Leads Read
+  - name: Jobs Read
+- id: smartmoving-open-api-premium
+  name: Open API - Premium
+  type: subscription
+  description: >-
+    Full read/write Open API tier for integration and automation, including
+    create, update, and delete access and outbound webhooks. Capped at 125,000
+    calls per month, with purchasable overage packs.
+  entries:
+  - label: Premium Subscription
+    name: premium_subscription
+    type: flat
+    metric: subscription
+    limit: 1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: 149.00 USD/month
+    userMultiplied: false
+  - label: Monthly API Calls
+    name: premium_calls
+    type: usage
+    metric: requests
+    limit: 125000
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: included in subscription
+    userMultiplied: false
+  - label: Additional Call Pack
+    name: premium_call_pack
+    type: usage
+    metric: requests
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: 149.00 USD per pack (up to 5 at a time; auto-purchase at 90% usage)
+    userMultiplied: false
+  elements:
+  - name: Read and Write Access
+  - name: Create Update Delete
+  - name: Webhooks
+  - name: Overage Call Packs
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

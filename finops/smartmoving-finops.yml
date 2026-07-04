@@ -1,0 +1,89 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: SmartMoving
+providerId: smartmoving
+created: '2026-07-04'
+modified: '2026-07-04'
+reconciled: false
+tags:
+- Moving Software
+- CRM
+- API
+- FinOps
+- Cost Management
+- FOCUS
+description: >-
+  FinOps view of SmartMoving Open API spend. The Open API is an add-on to the
+  SmartMoving Growth product subscription. The Basic tier is included at no
+  extra charge (20,000 calls/month, read-only). The Premium tier is a flat
+  $149/month recurring fee (125,000 calls/month, read/write plus webhooks), with
+  variable overage in the form of $149 call packs purchased when the monthly
+  quota is exhausted. Cost therefore has a fixed subscription component plus an
+  optional usage-driven overage component; the dominant lever is staying within
+  the monthly call quota. The Lead API is free and does not contribute to spend.
+notes: >-
+  Underlying SmartMoving Growth-plan subscription pricing is quote-based and not
+  reconciled here. Figures reflect the published Open API help documentation as
+  of the review date; verify current rates before reconciliation.
+sources:
+- https://help.smartmoving.com/en/articles/9739804-smartmoving-s-open-api
+- https://www.smartmoving.com/blog/6-ways-to-use-smartmoving-api
+- https://focus.finops.org/focus-specification/v1-3/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: SmartMoving
+serviceCategory: Business Software - Moving CRM
+billingModel:
+  pricingCategory: Subscription-Plus-Overage
+  billingFrequency: Monthly
+  billingCurrency: USD
+  chargeCategories:
+  - Recurring
+  - Usage
+  - Purchase
+focusColumns:
+  ServiceName: SmartMoving Open API
+  ServiceCategory: Business Software
+  ProviderName: SmartMoving
+  PublisherName: SmartMoving
+  InvoiceIssuerName: SmartMoving
+  BillingCurrency: USD
+  ChargeCategory: Recurring
+  PricingCategory: Subscription-Plus-Overage
+meters:
+- name: premium_subscription
+  description: Flat monthly Premium Open API subscription fee ($149/month).
+  unit: months
+  aggregation: sum
+  dimensions:
+  - account
+- name: api_calls
+  description: Open API calls consumed against the tier's monthly quota (20k Basic / 125k Premium).
+  unit: requests
+  aggregation: sum
+  dimensions:
+  - account
+  - tier
+- name: overage_packs
+  description: Additional Premium call packs purchased when the monthly quota is exhausted ($149 each).
+  unit: packs
+  aggregation: sum
+  dimensions:
+  - account
+principles:
+- name: Visibility
+  description: Track monthly Open API call volume per account against the tier quota; watch for approach to the 20k/125k caps.
+- name: Allocation
+  description: Attribute call volume to the integrations that generate it (reporting sync, automation, webhooks) to see which workloads drive overage.
+- name: Optimization
+  description: Prefer webhooks over polling to cut read volume, batch and paginate efficiently, and cache reference data (branches, users, service types) to stay under the monthly quota and avoid $149 overage packs.
+- name: Accountability
+  description: Assign an owner to the SmartMoving Premium subscription; review monthly usage and auto-purchase settings so overage packs are a deliberate decision.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

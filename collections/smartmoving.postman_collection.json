@@ -1,0 +1,256 @@
+{
+  "info": {
+    "name": "SmartMoving Open API",
+    "description": "Read and write the core objects of a SmartMoving moving-company CRM - customers, opportunities (quotes/estimates), leads, jobs (booked moves), payments, and follow-ups - plus the free Lead Provider intake endpoint. Base URL: https://api.smartmoving.com/api. Open API requests authenticate with an x-api-key header (Growth plan add-on; Basic read-only or Premium read/write). The Lead Provider endpoint uses a providerKey query parameter instead. Reference-data requests (branches, users) are modeled pending Developer Portal confirmation.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      { "key": "key", "value": "x-api-key", "type": "string" },
+      { "key": "value", "value": "{{apiKey}}", "type": "string" },
+      { "key": "in", "value": "header", "type": "string" }
+    ]
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "https://api.smartmoving.com/api", "type": "string" },
+    { "key": "apiKey", "value": "", "type": "string" },
+    { "key": "providerKey", "value": "", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Customers",
+      "item": [
+        {
+          "name": "List customers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/customers?Page=1&PageSize=25", "host": ["{{baseUrl}}"], "path": ["customers"], "query": [{ "key": "Page", "value": "1" }, { "key": "PageSize", "value": "25" }] },
+            "description": "Lists customers with pagination."
+          }
+        },
+        {
+          "name": "Search customers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/customers/search?query=smith", "host": ["{{baseUrl}}"], "path": ["customers", "search"], "query": [{ "key": "query", "value": "smith" }] },
+            "description": "Searches customers by free-text query (Premium)."
+          }
+        },
+        {
+          "name": "Retrieve a customer",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/customers/:id", "host": ["{{baseUrl}}"], "path": ["customers", ":id"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Retrieves a single customer by ID."
+          }
+        },
+        {
+          "name": "Create a customer (Premium)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Jane Smith\",\n  \"emailAddress\": \"jane@example.com\",\n  \"phoneNumber\": \"5551234567\"\n}" },
+            "url": { "raw": "{{baseUrl}}/customers", "host": ["{{baseUrl}}"], "path": ["customers"] },
+            "description": "Creates a customer. Requires the Premium tier."
+          }
+        },
+        {
+          "name": "Update a customer (Premium)",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Jane Smith\"\n}" },
+            "url": { "raw": "{{baseUrl}}/customers/:id", "host": ["{{baseUrl}}"], "path": ["customers", ":id"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Updates a customer. Requires the Premium tier."
+          }
+        },
+        {
+          "name": "List a customer's opportunities",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/customers/:id/opportunities", "host": ["{{baseUrl}}"], "path": ["customers", ":id", "opportunities"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Lists the opportunities belonging to a customer."
+          }
+        },
+        {
+          "name": "List a customer's storage accounts",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/customers/:id/storage-accounts", "host": ["{{baseUrl}}"], "path": ["customers", ":id", "storage-accounts"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Lists the storage accounts associated with a customer."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Opportunities",
+      "item": [
+        {
+          "name": "Retrieve an opportunity",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/opportunities/:id", "host": ["{{baseUrl}}"], "path": ["opportunities", ":id"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Retrieves an opportunity (quote/estimate) by ID."
+          }
+        },
+        {
+          "name": "Retrieve an opportunity by quote number",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/opportunities/quote/:quoteNumber", "host": ["{{baseUrl}}"], "path": ["opportunities", "quote", ":quoteNumber"], "variable": [{ "key": "quoteNumber", "value": "" }] },
+            "description": "Retrieves an opportunity by quote number."
+          }
+        },
+        {
+          "name": "List an opportunity's payments",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/opportunities/:id/payments", "host": ["{{baseUrl}}"], "path": ["opportunities", ":id", "payments"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Lists payments recorded against an opportunity."
+          }
+        },
+        {
+          "name": "List an opportunity's follow-ups (Premium)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/opportunities/:id/follow-ups", "host": ["{{baseUrl}}"], "path": ["opportunities", ":id", "follow-ups"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Lists follow-up tasks for an opportunity."
+          }
+        },
+        {
+          "name": "Create an opportunity follow-up (Premium)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{}" },
+            "url": { "raw": "{{baseUrl}}/opportunities/:id/follow-ups", "host": ["{{baseUrl}}"], "path": ["opportunities", ":id", "follow-ups"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Creates a follow-up task for an opportunity. Requires the Premium tier."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Leads",
+      "item": [
+        {
+          "name": "List leads",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/leads?Page=1&PageSize=25", "host": ["{{baseUrl}}"], "path": ["leads"], "query": [{ "key": "Page", "value": "1" }, { "key": "PageSize", "value": "25" }] },
+            "description": "Lists leads with pagination."
+          }
+        },
+        {
+          "name": "Retrieve a lead",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/leads/:id", "host": ["{{baseUrl}}"], "path": ["leads", ":id"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Retrieves a single lead by ID."
+          }
+        },
+        {
+          "name": "List lead statuses",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/leads/statuses", "host": ["{{baseUrl}}"], "path": ["leads", "statuses"] },
+            "description": "Lists the account's lead statuses."
+          }
+        },
+        {
+          "name": "List leads by salesperson (Premium)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/leads/salesperson/:id", "host": ["{{baseUrl}}"], "path": ["leads", "salesperson", ":id"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Lists leads assigned to a salesperson. Requires the Premium tier."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Lead Provider",
+      "item": [
+        {
+          "name": "Submit a lead from a provider",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"FirstName\": \"Jane\",\n  \"LastName\": \"Smith\",\n  \"PhoneNumber\": \"5551234567\",\n  \"Email\": \"jane@example.com\",\n  \"MoveDate\": \"20260815\",\n  \"OriginAddressFull\": \"123 Main St, Austin, TX 78701\",\n  \"DestinationAddressFull\": \"456 Oak Ave, Dallas, TX 75201\",\n  \"ReferralSource\": \"Website\"\n}" },
+            "url": { "raw": "{{baseUrl}}/leads/from-provider/v2?providerKey={{providerKey}}", "host": ["{{baseUrl}}"], "path": ["leads", "from-provider", "v2"], "query": [{ "key": "providerKey", "value": "{{providerKey}}" }] },
+            "description": "Pushes a new lead into a SmartMoving account. Uses a providerKey query parameter, not the Open API key. Free on all plans."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Jobs",
+      "item": [
+        {
+          "name": "List an opportunity's jobs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/opportunities/:id/jobs", "host": ["{{baseUrl}}"], "path": ["opportunities", ":id", "jobs"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Lists the jobs (booked moves) for an opportunity."
+          }
+        },
+        {
+          "name": "Create a job (Premium)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"jobDate\": \"2026-08-15\",\n  \"type\": \"Move\"\n}" },
+            "url": { "raw": "{{baseUrl}}/opportunities/:id/jobs", "host": ["{{baseUrl}}"], "path": ["opportunities", ":id", "jobs"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Creates a job against an opportunity. Requires the Premium tier."
+          }
+        },
+        {
+          "name": "Delete a job (Premium)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/jobs/:id", "host": ["{{baseUrl}}"], "path": ["jobs", ":id"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Deletes a job by ID. Requires the Premium tier."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reference Data",
+      "item": [
+        {
+          "name": "List branches (modeled)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/branches", "host": ["{{baseUrl}}"], "path": ["branches"] },
+            "description": "Lists the account's branches (locations). Modeled pending Developer Portal confirmation."
+          }
+        },
+        {
+          "name": "List users (modeled)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/users", "host": ["{{baseUrl}}"], "path": ["users"] },
+            "description": "Lists the account's users (staff/salespeople). Modeled pending Developer Portal confirmation."
+          }
+        }
+      ]
+    }
+  ]
+}
