@@ -1,0 +1,17 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/smartmoving-openapi.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: apiKeyAuth
+  type: apiKey
+  in: header
+  parameter: x-api-key
+  description: Open API key issued at Settings > Integrations > SmartMoving API. The Azure API
+    Management gateway may additionally require an Ocp-Apim-Subscription-Key header.
+  sources:
+  - openapi/smartmoving-openapi.yml

@@ -195,6 +195,10 @@ apis:
     time instead of polling. Webhooks are server-to-endpoint HTTP callbacks, not a
     bidirectional WebSocket transport.
 common:
+- type: DomainSecurity
+  url: security/smartmoving-domain-security.yml
+- type: Authentication
+  url: authentication/smartmoving-authentication.yml
 - type: Website
   url: https://www.smartmoving.com
 - type: LinkedIn
@@ -209,6 +213,8 @@ common:
   url: rate-limits/smartmoving-rate-limits.yml
 - type: FinOps
   url: finops/smartmoving-finops.yml
+- type: Blog
+  url: https://www.smartmoving.com/blog/rss.xml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
