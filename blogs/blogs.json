@@ -1,0 +1,13 @@
+{
+  "repo": "smartmoving",
+  "feeds": [
+    {
+      "source": "https://www.smartmoving.com/blog/rss.xml",
+      "feed_url": "https://www.smartmoving.com/blog/rss.xml",
+      "title": "Blog",
+      "saved": 0
+    }
+  ],
+  "fetched": "2026-07-11T11:43:46Z",
+  "post_count": 10
+}
