@@ -195,6 +195,8 @@ apis:
     time instead of polling. Webhooks are server-to-endpoint HTTP callbacks, not a
     bidirectional WebSocket transport.
 common:
+- type: AgenticAccess
+  url: agentic-access/smartmoving-agentic-access.yml
 - type: DomainSecurity
   url: security/smartmoving-domain-security.yml
 - type: Authentication
