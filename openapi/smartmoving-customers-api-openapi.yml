@@ -1,0 +1,288 @@
+openapi: 3.0.3
+info:
+  title: SmartMoving Open Customers API
+  description: 'The SmartMoving Open API lets moving companies read and write the core objects of their SmartMoving CRM and operations platform - customers, opportunities (quotes / estimates), leads, jobs (booked moves), payments, and follow-ups. The Open API is fronted by Azure API Management and is available to Growth Plan customers in two tiers: Basic (read-only, for reporting and analytics) and Premium (read/write plus webhooks, for full integration and automation). All Open API requests authenticate with an x-api-key header issued at Settings > Integrations > SmartMoving API; the Azure gateway may additionally require an Ocp-Apim-Subscription-Key.
+
+    A separate, free Lead Provider API (POST /leads/from-provider/v2) is available on every SmartMoving plan and authenticates with a per-source providerKey query parameter instead of the Open API key; it is included here for completeness.
+
+    Endpoints under Customers, Opportunities, Leads, and Jobs are confirmed against SmartMoving''s documentation and community SDKs. Reference-data endpoints for branches, users, service types, and referral sources are modeled from the documented data model and marked with x-endpoint-status; verify exact paths and shapes in the SmartMoving Developer Portal.'
+  version: '1.0'
+  contact:
+    name: SmartMoving
+    url: https://www.smartmoving.com
+  license:
+    name: Proprietary
+    url: https://www.smartmoving.com/terms
+servers:
+- url: https://api.smartmoving.com/api
+  description: SmartMoving Open API (production)
+security:
+- apiKeyAuth: []
+tags:
+- name: Customers
+  description: Customer (contact / account) records.
+paths:
+  /customers:
+    get:
+      operationId: listCustomers
+      tags:
+      - Customers
+      summary: List customers
+      description: Lists customers in the account with pagination.
+      x-endpoint-status: confirmed
+      parameters:
+      - $ref: '#/components/parameters/Page'
+      - $ref: '#/components/parameters/PageSize'
+      responses:
+        '200':
+          description: A paged list of customers.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createCustomer
+      tags:
+      - Customers
+      summary: Create a customer (Premium)
+      description: Creates a new customer. Requires the Premium (read/write) tier.
+      x-endpoint-status: confirmed
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+      responses:
+        '201':
+          description: The created customer.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+  /customers/search:
+    get:
+      operationId: searchCustomers
+      tags:
+      - Customers
+      summary: Search customers (Premium)
+      description: Searches customers by a free-text query.
+      x-endpoint-status: confirmed
+      parameters:
+      - name: query
+        in: query
+        required: true
+        schema:
+          type: string
+        description: Free-text search term matched against customer fields.
+      - $ref: '#/components/parameters/Page'
+      - $ref: '#/components/parameters/PageSize'
+      responses:
+        '200':
+          description: Matching customers.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /customers/{id}:
+    parameters:
+    - $ref: '#/components/parameters/IdPath'
+    get:
+      operationId: getCustomer
+      tags:
+      - Customers
+      summary: Retrieve a customer
+      description: Retrieves a single customer by ID.
+      x-endpoint-status: confirmed
+      responses:
+        '200':
+          description: The requested customer.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: updateCustomer
+      tags:
+      - Customers
+      summary: Update a customer (Premium)
+      description: Updates an existing customer. Requires the Premium tier.
+      x-endpoint-status: confirmed
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+      responses:
+        '200':
+          description: The updated customer.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+  /customers/{id}/opportunities:
+    parameters:
+    - $ref: '#/components/parameters/IdPath'
+    get:
+      operationId: listCustomerOpportunities
+      tags:
+      - Customers
+      summary: List a customer's opportunities
+      description: Lists the opportunities (quotes / estimates) belonging to a customer.
+      x-endpoint-status: confirmed
+      responses:
+        '200':
+          description: The customer's opportunities.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Opportunity'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /customers/{id}/storage-accounts:
+    parameters:
+    - $ref: '#/components/parameters/IdPath'
+    get:
+      operationId: listCustomerStorageAccounts
+      tags:
+      - Customers
+      summary: List a customer's storage accounts
+      description: Lists the storage accounts associated with a customer.
+      x-endpoint-status: confirmed
+      responses:
+        '200':
+          description: The customer's storage accounts.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  responses:
+    Forbidden:
+      description: The API key's tier does not permit this operation (write requires Premium).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested record was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    Page:
+      name: Page
+      in: query
+      required: false
+      schema:
+        type: integer
+        default: 1
+      description: 1-based page number.
+    PageSize:
+      name: PageSize
+      in: query
+      required: false
+      schema:
+        type: integer
+        default: 25
+      description: Number of records per page.
+    IdPath:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The record identifier (GUID).
+  schemas:
+    Customer:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        emailAddress:
+          type: string
+        phoneNumber:
+          type: string
+        address:
+          type: string
+        createdOn:
+          type: string
+          format: date-time
+    Opportunity:
+      type: object
+      properties:
+        id:
+          type: string
+        quoteNumber:
+          type: string
+        customerId:
+          type: string
+        branchId:
+          type: string
+        status:
+          type: string
+        serviceType:
+          type: string
+        moveDate:
+          type: string
+          format: date
+        estimatedTotal:
+          type: number
+    CustomerList:
+      type: object
+      properties:
+        pageResults:
+          type: array
+          items:
+            $ref: '#/components/schemas/Customer'
+        totalResults:
+          type: integer
+        page:
+          type: integer
+        pageSize:
+          type: integer
+    Error:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+        message:
+          type: string
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: Open API key issued at Settings > Integrations > SmartMoving API. The Azure API Management gateway may additionally require an Ocp-Apim-Subscription-Key header.

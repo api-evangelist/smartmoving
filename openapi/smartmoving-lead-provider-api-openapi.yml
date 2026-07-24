@@ -1,0 +1,127 @@
+openapi: 3.0.3
+info:
+  title: SmartMoving Open Customers Lead Provider API
+  description: 'The SmartMoving Open API lets moving companies read and write the core objects of their SmartMoving CRM and operations platform - customers, opportunities (quotes / estimates), leads, jobs (booked moves), payments, and follow-ups. The Open API is fronted by Azure API Management and is available to Growth Plan customers in two tiers: Basic (read-only, for reporting and analytics) and Premium (read/write plus webhooks, for full integration and automation). All Open API requests authenticate with an x-api-key header issued at Settings > Integrations > SmartMoving API; the Azure gateway may additionally require an Ocp-Apim-Subscription-Key.
+
+    A separate, free Lead Provider API (POST /leads/from-provider/v2) is available on every SmartMoving plan and authenticates with a per-source providerKey query parameter instead of the Open API key; it is included here for completeness.
+
+    Endpoints under Customers, Opportunities, Leads, and Jobs are confirmed against SmartMoving''s documentation and community SDKs. Reference-data endpoints for branches, users, service types, and referral sources are modeled from the documented data model and marked with x-endpoint-status; verify exact paths and shapes in the SmartMoving Developer Portal.'
+  version: '1.0'
+  contact:
+    name: SmartMoving
+    url: https://www.smartmoving.com
+  license:
+    name: Proprietary
+    url: https://www.smartmoving.com/terms
+servers:
+- url: https://api.smartmoving.com/api
+  description: SmartMoving Open API (production)
+security:
+- apiKeyAuth: []
+tags:
+- name: Lead Provider
+  description: Inbound lead intake from websites and third-party providers.
+paths:
+  /leads/from-provider/v2:
+    post:
+      operationId: createLeadFromProvider
+      tags:
+      - Lead Provider
+      summary: Submit a lead from a provider
+      description: Pushes a new lead into a SmartMoving account from a website or third-party lead provider. Authenticated by a per-source providerKey query parameter rather than the Open API x-api-key, and free on every SmartMoving plan. Either the individual origin/destination address components or the *AddressFull fields may be supplied, but not both.
+      x-endpoint-status: confirmed
+      security: []
+      parameters:
+      - name: providerKey
+        in: query
+        required: true
+        schema:
+          type: string
+        description: Per-source provider key from Settings > Sales > Lead Providers.
+      - name: branchId
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Optional branch to route the lead to.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProviderLead'
+      responses:
+        '200':
+          description: The lead was accepted.
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Invalid lead payload.
+components:
+  schemas:
+    ProviderLead:
+      type: object
+      required:
+      - FirstName
+      properties:
+        FirstName:
+          type: string
+        LastName:
+          type: string
+        FullName:
+          type: string
+        PhoneNumber:
+          type: string
+        PhoneType:
+          type: string
+        Email:
+          type: string
+        MoveDate:
+          type: string
+          description: Move date in YYYYMMDD format.
+        MoveSize:
+          type: string
+        Bedrooms:
+          type: string
+        ServiceType:
+          type: string
+        ReferralSource:
+          type: string
+        Notes:
+          type: string
+        OriginStreet:
+          type: string
+        OriginCity:
+          type: string
+        OriginState:
+          type: string
+        OriginZip:
+          type: string
+        OriginAddressFull:
+          type: string
+        DestinationStreet:
+          type: string
+        DestinationCity:
+          type: string
+        DestinationState:
+          type: string
+        DestinationZip:
+          type: string
+        DestinationAddressFull:
+          type: string
+        UtmSource:
+          type: string
+        UtmMedium:
+          type: string
+        UtmCampaign:
+          type: string
+        leadCost:
+          type: number
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: Open API key issued at Settings > Integrations > SmartMoving API. The Azure API Management gateway may additionally require an Ocp-Apim-Subscription-Key header.

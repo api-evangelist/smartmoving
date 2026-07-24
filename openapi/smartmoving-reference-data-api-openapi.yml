@@ -1,0 +1,144 @@
+openapi: 3.0.3
+info:
+  title: SmartMoving Open Customers Reference Data API
+  description: 'The SmartMoving Open API lets moving companies read and write the core objects of their SmartMoving CRM and operations platform - customers, opportunities (quotes / estimates), leads, jobs (booked moves), payments, and follow-ups. The Open API is fronted by Azure API Management and is available to Growth Plan customers in two tiers: Basic (read-only, for reporting and analytics) and Premium (read/write plus webhooks, for full integration and automation). All Open API requests authenticate with an x-api-key header issued at Settings > Integrations > SmartMoving API; the Azure gateway may additionally require an Ocp-Apim-Subscription-Key.
+
+    A separate, free Lead Provider API (POST /leads/from-provider/v2) is available on every SmartMoving plan and authenticates with a per-source providerKey query parameter instead of the Open API key; it is included here for completeness.
+
+    Endpoints under Customers, Opportunities, Leads, and Jobs are confirmed against SmartMoving''s documentation and community SDKs. Reference-data endpoints for branches, users, service types, and referral sources are modeled from the documented data model and marked with x-endpoint-status; verify exact paths and shapes in the SmartMoving Developer Portal.'
+  version: '1.0'
+  contact:
+    name: SmartMoving
+    url: https://www.smartmoving.com
+  license:
+    name: Proprietary
+    url: https://www.smartmoving.com/terms
+servers:
+- url: https://api.smartmoving.com/api
+  description: SmartMoving Open API (production)
+security:
+- apiKeyAuth: []
+tags:
+- name: Reference Data
+  description: Account lookup data - branches, users, service types, referral sources.
+paths:
+  /branches:
+    get:
+      operationId: listBranches
+      tags:
+      - Reference Data
+      summary: List branches
+      description: Lists the branches (locations) configured for the account. Modeled from the documented data model; verify the exact path in the Developer Portal.
+      x-endpoint-status: modeled
+      responses:
+        '200':
+          description: The account's branches.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Branch'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /users:
+    get:
+      operationId: listUsers
+      tags:
+      - Reference Data
+      summary: List users
+      description: Lists the users (staff / salespeople) in the account. Modeled from the documented data model; verify the exact path in the Developer Portal.
+      x-endpoint-status: modeled
+      responses:
+        '200':
+          description: The account's users.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /service-types:
+    get:
+      operationId: listServiceTypes
+      tags:
+      - Reference Data
+      summary: List service types
+      description: Lists the move service types configured for the account. Modeled from the documented data model; verify the exact path in the Developer Portal.
+      x-endpoint-status: modeled
+      responses:
+        '200':
+          description: The account's service types.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /referral-sources:
+    get:
+      operationId: listReferralSources
+      tags:
+      - Reference Data
+      summary: List referral sources
+      description: Lists the referral / lead sources configured for the account. Modeled from the documented data model; verify the exact path in the Developer Portal.
+      x-endpoint-status: modeled
+      responses:
+        '200':
+          description: The account's referral sources.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+        role:
+          type: string
+    Branch:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        phoneNumber:
+          type: string
+        address:
+          type: string
+    Error:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+        message:
+          type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: Open API key issued at Settings > Integrations > SmartMoving API. The Azure API Management gateway may additionally require an Ocp-Apim-Subscription-Key header.

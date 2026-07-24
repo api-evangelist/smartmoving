@@ -1,0 +1,194 @@
+openapi: 3.0.3
+info:
+  title: SmartMoving Open Customers Leads API
+  description: 'The SmartMoving Open API lets moving companies read and write the core objects of their SmartMoving CRM and operations platform - customers, opportunities (quotes / estimates), leads, jobs (booked moves), payments, and follow-ups. The Open API is fronted by Azure API Management and is available to Growth Plan customers in two tiers: Basic (read-only, for reporting and analytics) and Premium (read/write plus webhooks, for full integration and automation). All Open API requests authenticate with an x-api-key header issued at Settings > Integrations > SmartMoving API; the Azure gateway may additionally require an Ocp-Apim-Subscription-Key.
+
+    A separate, free Lead Provider API (POST /leads/from-provider/v2) is available on every SmartMoving plan and authenticates with a per-source providerKey query parameter instead of the Open API key; it is included here for completeness.
+
+    Endpoints under Customers, Opportunities, Leads, and Jobs are confirmed against SmartMoving''s documentation and community SDKs. Reference-data endpoints for branches, users, service types, and referral sources are modeled from the documented data model and marked with x-endpoint-status; verify exact paths and shapes in the SmartMoving Developer Portal.'
+  version: '1.0'
+  contact:
+    name: SmartMoving
+    url: https://www.smartmoving.com
+  license:
+    name: Proprietary
+    url: https://www.smartmoving.com/terms
+servers:
+- url: https://api.smartmoving.com/api
+  description: SmartMoving Open API (production)
+security:
+- apiKeyAuth: []
+tags:
+- name: Leads
+  description: Sales pipeline leads and their statuses.
+paths:
+  /leads:
+    get:
+      operationId: listLeads
+      tags:
+      - Leads
+      summary: List leads
+      description: Lists leads in the account with pagination.
+      x-endpoint-status: confirmed
+      parameters:
+      - $ref: '#/components/parameters/Page'
+      - $ref: '#/components/parameters/PageSize'
+      responses:
+        '200':
+          description: A paged list of leads.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeadList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /leads/{id}:
+    parameters:
+    - $ref: '#/components/parameters/IdPath'
+    get:
+      operationId: getLead
+      tags:
+      - Leads
+      summary: Retrieve a lead
+      description: Retrieves a single lead by ID.
+      x-endpoint-status: confirmed
+      responses:
+        '200':
+          description: The requested lead.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lead'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /leads/statuses:
+    get:
+      operationId: listLeadStatuses
+      tags:
+      - Leads
+      summary: List lead statuses
+      description: Lists the lead statuses configured for the account.
+      x-endpoint-status: confirmed
+      responses:
+        '200':
+          description: The available lead statuses.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /leads/salesperson/{id}:
+    parameters:
+    - $ref: '#/components/parameters/IdPath'
+    get:
+      operationId: listLeadsBySalesperson
+      tags:
+      - Leads
+      summary: List leads by salesperson (Premium)
+      description: Lists leads assigned to a given salesperson (user). Requires the Premium tier.
+      x-endpoint-status: confirmed
+      responses:
+        '200':
+          description: The salesperson's leads.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeadList'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+components:
+  responses:
+    Forbidden:
+      description: The API key's tier does not permit this operation (write requires Premium).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested record was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    Page:
+      name: Page
+      in: query
+      required: false
+      schema:
+        type: integer
+        default: 1
+      description: 1-based page number.
+    PageSize:
+      name: PageSize
+      in: query
+      required: false
+      schema:
+        type: integer
+        default: 25
+      description: Number of records per page.
+    IdPath:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The record identifier (GUID).
+  schemas:
+    LeadList:
+      type: object
+      properties:
+        pageResults:
+          type: array
+          items:
+            $ref: '#/components/schemas/Lead'
+        totalResults:
+          type: integer
+        page:
+          type: integer
+        pageSize:
+          type: integer
+    Lead:
+      type: object
+      properties:
+        id:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        phoneNumber:
+          type: string
+        email:
+          type: string
+        status:
+          type: string
+        referralSource:
+          type: string
+        branchId:
+          type: string
+        createdOn:
+          type: string
+          format: date-time
+    Error:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+        message:
+          type: string
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: Open API key issued at Settings > Integrations > SmartMoving API. The Azure API Management gateway may additionally require an Ocp-Apim-Subscription-Key header.

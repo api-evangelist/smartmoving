@@ -1,0 +1,209 @@
+openapi: 3.0.3
+info:
+  title: SmartMoving Open Customers Opportunities API
+  description: 'The SmartMoving Open API lets moving companies read and write the core objects of their SmartMoving CRM and operations platform - customers, opportunities (quotes / estimates), leads, jobs (booked moves), payments, and follow-ups. The Open API is fronted by Azure API Management and is available to Growth Plan customers in two tiers: Basic (read-only, for reporting and analytics) and Premium (read/write plus webhooks, for full integration and automation). All Open API requests authenticate with an x-api-key header issued at Settings > Integrations > SmartMoving API; the Azure gateway may additionally require an Ocp-Apim-Subscription-Key.
+
+    A separate, free Lead Provider API (POST /leads/from-provider/v2) is available on every SmartMoving plan and authenticates with a per-source providerKey query parameter instead of the Open API key; it is included here for completeness.
+
+    Endpoints under Customers, Opportunities, Leads, and Jobs are confirmed against SmartMoving''s documentation and community SDKs. Reference-data endpoints for branches, users, service types, and referral sources are modeled from the documented data model and marked with x-endpoint-status; verify exact paths and shapes in the SmartMoving Developer Portal.'
+  version: '1.0'
+  contact:
+    name: SmartMoving
+    url: https://www.smartmoving.com
+  license:
+    name: Proprietary
+    url: https://www.smartmoving.com/terms
+servers:
+- url: https://api.smartmoving.com/api
+  description: SmartMoving Open API (production)
+security:
+- apiKeyAuth: []
+tags:
+- name: Opportunities
+  description: Sales opportunities - quotes and estimates.
+paths:
+  /opportunities/{id}:
+    parameters:
+    - $ref: '#/components/parameters/IdPath'
+    get:
+      operationId: getOpportunity
+      tags:
+      - Opportunities
+      summary: Retrieve an opportunity
+      description: Retrieves an opportunity (quote / estimate) by ID.
+      x-endpoint-status: confirmed
+      responses:
+        '200':
+          description: The requested opportunity.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Opportunity'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /opportunities/quote/{quoteNumber}:
+    parameters:
+    - name: quoteNumber
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The human-facing quote number.
+    get:
+      operationId: getOpportunityByQuote
+      tags:
+      - Opportunities
+      summary: Retrieve an opportunity by quote number
+      description: Retrieves an opportunity by its quote number.
+      x-endpoint-status: confirmed
+      responses:
+        '200':
+          description: The matching opportunity.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Opportunity'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /opportunities/{id}/payments:
+    parameters:
+    - $ref: '#/components/parameters/IdPath'
+    get:
+      operationId: listOpportunityPayments
+      tags:
+      - Opportunities
+      summary: List an opportunity's payments
+      description: Lists payments recorded against an opportunity.
+      x-endpoint-status: confirmed
+      responses:
+        '200':
+          description: The opportunity's payments.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Payment'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /opportunities/{id}/follow-ups:
+    parameters:
+    - $ref: '#/components/parameters/IdPath'
+    get:
+      operationId: listOpportunityFollowUps
+      tags:
+      - Opportunities
+      summary: List an opportunity's follow-ups (Premium)
+      description: Lists follow-up tasks recorded against an opportunity.
+      x-endpoint-status: confirmed
+      responses:
+        '200':
+          description: The opportunity's follow-ups.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createOpportunityFollowUp
+      tags:
+      - Opportunities
+      summary: Create an opportunity follow-up (Premium)
+      description: Creates a follow-up task against an opportunity. Requires the Premium tier.
+      x-endpoint-status: confirmed
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: The created follow-up.
+          content:
+            application/json:
+              schema:
+                type: object
+        '403':
+          $ref: '#/components/responses/Forbidden'
+components:
+  responses:
+    Forbidden:
+      description: The API key's tier does not permit this operation (write requires Premium).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested record was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Opportunity:
+      type: object
+      properties:
+        id:
+          type: string
+        quoteNumber:
+          type: string
+        customerId:
+          type: string
+        branchId:
+          type: string
+        status:
+          type: string
+        serviceType:
+          type: string
+        moveDate:
+          type: string
+          format: date
+        estimatedTotal:
+          type: number
+    Payment:
+      type: object
+      properties:
+        id:
+          type: string
+        opportunityId:
+          type: string
+        amount:
+          type: number
+        method:
+          type: string
+        receivedOn:
+          type: string
+          format: date-time
+    Error:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+        message:
+          type: string
+  parameters:
+    IdPath:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The record identifier (GUID).
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: Open API key issued at Settings > Integrations > SmartMoving API. The Azure API Management gateway may additionally require an Ocp-Apim-Subscription-Key header.
