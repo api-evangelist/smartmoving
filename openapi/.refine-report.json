@@ -1,0 +1,24 @@
+{
+  "provider": "smartmoving",
+  "sources": [
+    "smartmoving-customers-api-openapi.yml",
+    "smartmoving-jobs-api-openapi.yml",
+    "smartmoving-lead-provider-api-openapi.yml",
+    "smartmoving-leads-api-openapi.yml",
+    "smartmoving-opportunities-api-openapi.yml",
+    "smartmoving-reference-data-api-openapi.yml"
+  ],
+  "outputs": [
+    "smartmoving-customers-api-openapi.yml",
+    "smartmoving-jobs-api-openapi.yml",
+    "smartmoving-lead-provider-api-openapi.yml",
+    "smartmoving-leads-api-openapi.yml",
+    "smartmoving-opportunities-api-openapi.yml",
+    "smartmoving-reference-data-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
