@@ -1,0 +1,55 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SmartMoving Open Customers Lead Provider API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "x-api-key",
+      "value": "{{x-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Lead Provider",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Submit a lead from a provider",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.smartmoving.com/api/leads/from-provider/v2",
+            "params": [
+              {
+                "name": "providerKey",
+                "value": "",
+                "type": "query",
+                "description": "Per-source provider key from Settings > Sales > Lead Providers."
+              },
+              {
+                "name": "branchId",
+                "value": "",
+                "type": "query",
+                "description": "Optional branch to route the lead to."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Pushes a new lead into a SmartMoving account from a website or third-party lead provider. Authenticated by a per-source providerKey query parameter rather than the Open API x-api-key, and free on every SmartMoving plan. Either the individual origin/destination address components or the *AddressFull fields may be supplied, but not both."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

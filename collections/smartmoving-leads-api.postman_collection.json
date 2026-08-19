@@ -1,0 +1,624 @@
+{
+  "item": [
+    {
+      "id": "7072a46d-891e-49f9-8d2e-cbf5fb8ae897",
+      "name": "Leads",
+      "description": {
+        "content": "Sales pipeline leads and their statuses.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1b959dda-8f4e-431d-a910-57083acac87e",
+          "name": "List leads",
+          "request": {
+            "name": "List leads",
+            "description": {
+              "content": "Lists leads in the account with pagination.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "leads"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "Page",
+                  "value": "1",
+                  "description": "1-based page number."
+                },
+                {
+                  "disabled": false,
+                  "key": "PageSize",
+                  "value": "25",
+                  "description": "Number of records per page."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d8bb7411-b55f-4a18-a355-87ce7819b5a8",
+              "name": "A paged list of leads.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "leads"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "Page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "PageSize",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"pageResults\": [\n    {\n      \"id\": \"string\",\n      \"firstName\": \"string\",\n      \"lastName\": \"string\",\n      \"phoneNumber\": \"string\",\n      \"email\": \"string\",\n      \"status\": \"string\",\n      \"referralSource\": \"string\",\n      \"branchId\": \"string\",\n      \"createdOn\": \"1993-08-06T10:18:34.653Z\"\n    },\n    {\n      \"id\": \"string\",\n      \"firstName\": \"string\",\n      \"lastName\": \"string\",\n      \"phoneNumber\": \"string\",\n      \"email\": \"string\",\n      \"status\": \"string\",\n      \"referralSource\": \"string\",\n      \"branchId\": \"string\",\n      \"createdOn\": \"1975-11-10T15:56:25.666Z\"\n    }\n  ],\n  \"totalResults\": 9370,\n  \"page\": 2190,\n  \"pageSize\": 107\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ea2d65a2-43f2-4066-bab4-ebde01343c0c",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "leads"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "Page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "PageSize",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"statusCode\": 1408,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "115ac130-c89c-4cb5-875b-928712b763b1",
+          "name": "Retrieve a lead",
+          "request": {
+            "name": "Retrieve a lead",
+            "description": {
+              "content": "Retrieves a single lead by ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "leads",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The record identifier (GUID)."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c2baf54e-fa72-4400-9a4c-dda902883aa9",
+              "name": "The requested lead.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "leads",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The record identifier (GUID)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"firstName\": \"string\",\n  \"lastName\": \"string\",\n  \"phoneNumber\": \"string\",\n  \"email\": \"string\",\n  \"status\": \"string\",\n  \"referralSource\": \"string\",\n  \"branchId\": \"string\",\n  \"createdOn\": \"1997-10-17T14:31:19.030Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8e303dc9-7a67-4a20-8557-a830eccc98dd",
+              "name": "The requested record was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "leads",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The record identifier (GUID)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"statusCode\": 1408,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f9026674-7bdb-4402-9948-e95a308b5556",
+          "name": "List lead statuses",
+          "request": {
+            "name": "List lead statuses",
+            "description": {
+              "content": "Lists the lead statuses configured for the account.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "leads",
+                "statuses"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2f1b7d05-52a4-4fd8-91ee-ee7323d0e8d8",
+              "name": "The available lead statuses.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "leads",
+                    "statuses"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "59958f12-c349-471a-93f9-a190363e13ad",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "leads",
+                    "statuses"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"statusCode\": 1408,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "efcdcb26-ab95-4767-84ab-8ebb87c9f9e0",
+          "name": "List leads by salesperson (Premium)",
+          "request": {
+            "name": "List leads by salesperson (Premium)",
+            "description": {
+              "content": "Lists leads assigned to a given salesperson (user). Requires the Premium tier.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "leads",
+                "salesperson",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The record identifier (GUID)."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e483c456-19a7-4942-b70a-4e4d955cab74",
+              "name": "The salesperson's leads.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "leads",
+                    "salesperson",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The record identifier (GUID)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"pageResults\": [\n    {\n      \"id\": \"string\",\n      \"firstName\": \"string\",\n      \"lastName\": \"string\",\n      \"phoneNumber\": \"string\",\n      \"email\": \"string\",\n      \"status\": \"string\",\n      \"referralSource\": \"string\",\n      \"branchId\": \"string\",\n      \"createdOn\": \"1961-10-21T19:20:00.238Z\"\n    },\n    {\n      \"id\": \"string\",\n      \"firstName\": \"string\",\n      \"lastName\": \"string\",\n      \"phoneNumber\": \"string\",\n      \"email\": \"string\",\n      \"status\": \"string\",\n      \"referralSource\": \"string\",\n      \"branchId\": \"string\",\n      \"createdOn\": \"1992-10-23T23:50:22.149Z\"\n    }\n  ],\n  \"totalResults\": 5211,\n  \"page\": 2282,\n  \"pageSize\": 2674\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6d18b0e7-e5de-464d-9f4f-27d664522d15",
+              "name": "The API key's tier does not permit this operation (write requires Premium).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "leads",
+                    "salesperson",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The record identifier (GUID)."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"statusCode\": 1408,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.smartmoving.com/api",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "x-api-key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "1650184b-ec4e-43ea-bce6-8abe30117c8d",
+    "name": "SmartMoving Open Customers Leads API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The SmartMoving Open API lets moving companies read and write the core objects of their SmartMoving CRM and operations platform - customers, opportunities (quotes / estimates), leads, jobs (booked moves), payments, and follow-ups. The Open API is fronted by Azure API Management and is available to Growth Plan customers in two tiers: Basic (read-only, for reporting and analytics) and Premium (read/write plus webhooks, for full integration and automation). All Open API requests authenticate with an x-api-key header issued at Settings > Integrations > SmartMoving API; the Azure gateway may additionally require an Ocp-Apim-Subscription-Key.\nA separate, free Lead Provider API (POST /leads/from-provider/v2) is available on every SmartMoving plan and authenticates with a per-source providerKey query parameter instead of the Open API key; it is included here for completeness.\nEndpoints under Customers, Opportunities, Leads, and Jobs are confirmed against SmartMoving's documentation and community SDKs. Reference-data endpoints for branches, users, service types, and referral sources are modeled from the documented data model and marked with x-endpoint-status; verify exact paths and shapes in the SmartMoving Developer Portal.\n\nContact Support:\n Name: SmartMoving",
+      "type": "text/plain"
+    }
+  }
+}

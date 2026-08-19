@@ -1,0 +1,87 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SmartMoving Open Customers Jobs API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "x-api-key",
+      "value": "{{x-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Jobs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List an opportunity's jobs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartmoving.com/api/opportunities/:id/jobs",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The record identifier (GUID)."
+              }
+            ]
+          },
+          "docs": "Lists the jobs (booked moves) associated with an opportunity."
+        },
+        {
+          "info": {
+            "name": "Create a job (Premium)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.smartmoving.com/api/opportunities/:id/jobs",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The record identifier (GUID)."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a job (booked move) against an opportunity. Requires the Premium tier."
+        },
+        {
+          "info": {
+            "name": "Delete a job (Premium)",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.smartmoving.com/api/jobs/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The record identifier (GUID)."
+              }
+            ]
+          },
+          "docs": "Deletes a job by ID. Requires the Premium tier."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

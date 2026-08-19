@@ -1,0 +1,232 @@
+{
+  "item": [
+    {
+      "id": "b37beb8f-b408-46ae-b03a-910c7e30e409",
+      "name": "Lead Provider",
+      "description": {
+        "content": "Inbound lead intake from websites and third-party providers.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "fa2a57c9-7433-46cf-9824-55ec106612eb",
+          "name": "Submit a lead from a provider",
+          "request": {
+            "name": "Submit a lead from a provider",
+            "description": {
+              "content": "Pushes a new lead into a SmartMoving account from a website or third-party lead provider. Authenticated by a per-source providerKey query parameter rather than the Open API x-api-key, and free on every SmartMoving plan. Either the individual origin/destination address components or the *AddressFull fields may be supplied, but not both.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "leads",
+                "from-provider",
+                "v2"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "providerKey",
+                  "value": "<string>",
+                  "description": "(Required) Per-source provider key from Settings > Sales > Lead Providers."
+                },
+                {
+                  "disabled": false,
+                  "key": "branchId",
+                  "value": "<string>",
+                  "description": "Optional branch to route the lead to."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"FirstName\": \"<string>\",\n  \"LastName\": \"<string>\",\n  \"FullName\": \"<string>\",\n  \"PhoneNumber\": \"<string>\",\n  \"PhoneType\": \"<string>\",\n  \"Email\": \"<string>\",\n  \"MoveDate\": \"<string>\",\n  \"MoveSize\": \"<string>\",\n  \"Bedrooms\": \"<string>\",\n  \"ServiceType\": \"<string>\",\n  \"ReferralSource\": \"<string>\",\n  \"Notes\": \"<string>\",\n  \"OriginStreet\": \"<string>\",\n  \"OriginCity\": \"<string>\",\n  \"OriginState\": \"<string>\",\n  \"OriginZip\": \"<string>\",\n  \"OriginAddressFull\": \"<string>\",\n  \"DestinationStreet\": \"<string>\",\n  \"DestinationCity\": \"<string>\",\n  \"DestinationState\": \"<string>\",\n  \"DestinationZip\": \"<string>\",\n  \"DestinationAddressFull\": \"<string>\",\n  \"UtmSource\": \"<string>\",\n  \"UtmMedium\": \"<string>\",\n  \"UtmCampaign\": \"<string>\",\n  \"leadCost\": \"<number>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f3d2292e-9c8a-46e7-9b4b-aa885754aba6",
+              "name": "The lead was accepted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "leads",
+                    "from-provider",
+                    "v2"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "providerKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "branchId",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"FirstName\": \"<string>\",\n  \"LastName\": \"<string>\",\n  \"FullName\": \"<string>\",\n  \"PhoneNumber\": \"<string>\",\n  \"PhoneType\": \"<string>\",\n  \"Email\": \"<string>\",\n  \"MoveDate\": \"<string>\",\n  \"MoveSize\": \"<string>\",\n  \"Bedrooms\": \"<string>\",\n  \"ServiceType\": \"<string>\",\n  \"ReferralSource\": \"<string>\",\n  \"Notes\": \"<string>\",\n  \"OriginStreet\": \"<string>\",\n  \"OriginCity\": \"<string>\",\n  \"OriginState\": \"<string>\",\n  \"OriginZip\": \"<string>\",\n  \"OriginAddressFull\": \"<string>\",\n  \"DestinationStreet\": \"<string>\",\n  \"DestinationCity\": \"<string>\",\n  \"DestinationState\": \"<string>\",\n  \"DestinationZip\": \"<string>\",\n  \"DestinationAddressFull\": \"<string>\",\n  \"UtmSource\": \"<string>\",\n  \"UtmMedium\": \"<string>\",\n  \"UtmCampaign\": \"<string>\",\n  \"leadCost\": \"<number>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b8d780db-58dd-4b04-9a0b-f686c71ac729",
+              "name": "Invalid lead payload.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "leads",
+                    "from-provider",
+                    "v2"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "providerKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "branchId",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"FirstName\": \"<string>\",\n  \"LastName\": \"<string>\",\n  \"FullName\": \"<string>\",\n  \"PhoneNumber\": \"<string>\",\n  \"PhoneType\": \"<string>\",\n  \"Email\": \"<string>\",\n  \"MoveDate\": \"<string>\",\n  \"MoveSize\": \"<string>\",\n  \"Bedrooms\": \"<string>\",\n  \"ServiceType\": \"<string>\",\n  \"ReferralSource\": \"<string>\",\n  \"Notes\": \"<string>\",\n  \"OriginStreet\": \"<string>\",\n  \"OriginCity\": \"<string>\",\n  \"OriginState\": \"<string>\",\n  \"OriginZip\": \"<string>\",\n  \"OriginAddressFull\": \"<string>\",\n  \"DestinationStreet\": \"<string>\",\n  \"DestinationCity\": \"<string>\",\n  \"DestinationState\": \"<string>\",\n  \"DestinationZip\": \"<string>\",\n  \"DestinationAddressFull\": \"<string>\",\n  \"UtmSource\": \"<string>\",\n  \"UtmMedium\": \"<string>\",\n  \"UtmCampaign\": \"<string>\",\n  \"leadCost\": \"<number>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.smartmoving.com/api",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "x-api-key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "dad259be-b911-46b3-a3e1-80433b1ee559",
+    "name": "SmartMoving Open Customers Lead Provider API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The SmartMoving Open API lets moving companies read and write the core objects of their SmartMoving CRM and operations platform - customers, opportunities (quotes / estimates), leads, jobs (booked moves), payments, and follow-ups. The Open API is fronted by Azure API Management and is available to Growth Plan customers in two tiers: Basic (read-only, for reporting and analytics) and Premium (read/write plus webhooks, for full integration and automation). All Open API requests authenticate with an x-api-key header issued at Settings > Integrations > SmartMoving API; the Azure gateway may additionally require an Ocp-Apim-Subscription-Key.\nA separate, free Lead Provider API (POST /leads/from-provider/v2) is available on every SmartMoving plan and authenticates with a per-source providerKey query parameter instead of the Open API key; it is included here for completeness.\nEndpoints under Customers, Opportunities, Leads, and Jobs are confirmed against SmartMoving's documentation and community SDKs. Reference-data endpoints for branches, users, service types, and referral sources are modeled from the documented data model and marked with x-endpoint-status; verify exact paths and shapes in the SmartMoving Developer Portal.\n\nContact Support:\n Name: SmartMoving",
+      "type": "text/plain"
+    }
+  }
+}

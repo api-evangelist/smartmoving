@@ -1,0 +1,177 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SmartMoving Open Customers API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "x-api-key",
+      "value": "{{x-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Customers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List customers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartmoving.com/api/customers",
+            "params": [
+              {
+                "name": "Page",
+                "value": "",
+                "type": "query",
+                "description": "1-based page number."
+              },
+              {
+                "name": "PageSize",
+                "value": "",
+                "type": "query",
+                "description": "Number of records per page."
+              }
+            ]
+          },
+          "docs": "Lists customers in the account with pagination."
+        },
+        {
+          "info": {
+            "name": "Create a customer (Premium)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.smartmoving.com/api/customers",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new customer. Requires the Premium (read/write) tier."
+        },
+        {
+          "info": {
+            "name": "Search customers (Premium)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartmoving.com/api/customers/search",
+            "params": [
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "Free-text search term matched against customer fields."
+              },
+              {
+                "name": "Page",
+                "value": "",
+                "type": "query",
+                "description": "1-based page number."
+              },
+              {
+                "name": "PageSize",
+                "value": "",
+                "type": "query",
+                "description": "Number of records per page."
+              }
+            ]
+          },
+          "docs": "Searches customers by a free-text query."
+        },
+        {
+          "info": {
+            "name": "Retrieve a customer",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartmoving.com/api/customers/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The record identifier (GUID)."
+              }
+            ]
+          },
+          "docs": "Retrieves a single customer by ID."
+        },
+        {
+          "info": {
+            "name": "Update a customer (Premium)",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.smartmoving.com/api/customers/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The record identifier (GUID)."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an existing customer. Requires the Premium tier."
+        },
+        {
+          "info": {
+            "name": "List a customer's opportunities",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartmoving.com/api/customers/:id/opportunities",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The record identifier (GUID)."
+              }
+            ]
+          },
+          "docs": "Lists the opportunities (quotes / estimates) belonging to a customer."
+        },
+        {
+          "info": {
+            "name": "List a customer's storage accounts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartmoving.com/api/customers/:id/storage-accounts",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The record identifier (GUID)."
+              }
+            ]
+          },
+          "docs": "Lists the storage accounts associated with a customer."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

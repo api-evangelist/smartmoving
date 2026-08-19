@@ -1,0 +1,125 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SmartMoving Open Customers Opportunities API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "x-api-key",
+      "value": "{{x-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Opportunities",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve an opportunity",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartmoving.com/api/opportunities/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The record identifier (GUID)."
+              }
+            ]
+          },
+          "docs": "Retrieves an opportunity (quote / estimate) by ID."
+        },
+        {
+          "info": {
+            "name": "Retrieve an opportunity by quote number",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartmoving.com/api/opportunities/quote/:quoteNumber",
+            "params": [
+              {
+                "name": "quoteNumber",
+                "value": "",
+                "type": "path",
+                "description": "The human-facing quote number."
+              }
+            ]
+          },
+          "docs": "Retrieves an opportunity by its quote number."
+        },
+        {
+          "info": {
+            "name": "List an opportunity's payments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartmoving.com/api/opportunities/:id/payments",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The record identifier (GUID)."
+              }
+            ]
+          },
+          "docs": "Lists payments recorded against an opportunity."
+        },
+        {
+          "info": {
+            "name": "List an opportunity's follow-ups (Premium)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartmoving.com/api/opportunities/:id/follow-ups",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The record identifier (GUID)."
+              }
+            ]
+          },
+          "docs": "Lists follow-up tasks recorded against an opportunity."
+        },
+        {
+          "info": {
+            "name": "Create an opportunity follow-up (Premium)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.smartmoving.com/api/opportunities/:id/follow-ups",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The record identifier (GUID)."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a follow-up task against an opportunity. Requires the Premium tier."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

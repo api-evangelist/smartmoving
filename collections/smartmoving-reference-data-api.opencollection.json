@@ -1,0 +1,70 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "SmartMoving Open Customers Reference Data API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "x-api-key",
+      "value": "{{x-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Reference Data",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List branches",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartmoving.com/api/branches"
+          },
+          "docs": "Lists the branches (locations) configured for the account. Modeled from the documented data model; verify the exact path in the Developer Portal."
+        },
+        {
+          "info": {
+            "name": "List users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartmoving.com/api/users"
+          },
+          "docs": "Lists the users (staff / salespeople) in the account. Modeled from the documented data model; verify the exact path in the Developer Portal."
+        },
+        {
+          "info": {
+            "name": "List service types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartmoving.com/api/service-types"
+          },
+          "docs": "Lists the move service types configured for the account. Modeled from the documented data model; verify the exact path in the Developer Portal."
+        },
+        {
+          "info": {
+            "name": "List referral sources",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.smartmoving.com/api/referral-sources"
+          },
+          "docs": "Lists the referral / lead sources configured for the account. Modeled from the documented data model; verify the exact path in the Developer Portal."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
