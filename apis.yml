@@ -32,6 +32,13 @@ tags:
 - CRM
 - Field Service
 - Moving Company
+- Lead Management
+- Dispatch
+tags_raw:
+- Moving Software
+- CRM
+- Field Service
+- Moving Company
 - Operations
 - Lead Management
 - Dispatch
@@ -69,6 +76,8 @@ apis:
   humanURL: https://smartmoving-prod-api-management.developer.azure-api.net/
   baseURL: https://api.smartmoving.com/api
   tags:
+  - Job
+  tags_raw:
   - Jobs
   properties:
   - type: OpenAPI
