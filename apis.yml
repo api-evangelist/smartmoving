@@ -13,6 +13,18 @@ description: >-
   into an account from any lead provider or website. The API is offered in two
   tiers - Basic (read-only, for reporting and analytics) and Premium (read/write
   plus webhooks, for full integration and automation).
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: freemium
   onboarding: self-serve
