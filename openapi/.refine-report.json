@@ -1,12 +1,7 @@
 {
   "provider": "smartmoving",
   "sources": [
-    "smartmoving-customers-api-openapi.yml",
-    "smartmoving-jobs-api-openapi.yml",
-    "smartmoving-lead-provider-api-openapi.yml",
-    "smartmoving-leads-api-openapi.yml",
-    "smartmoving-opportunities-api-openapi.yml",
-    "smartmoving-reference-data-api-openapi.yml"
+    "_original/smartmoving-openapi.yml"
   ],
   "outputs": [
     "smartmoving-customers-api-openapi.yml",
@@ -19,6 +14,17 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "smartmoving-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "smartmoving-customers-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "smartmoving-jobs-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "smartmoving-lead-provider-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "smartmoving-leads-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "smartmoving-opportunities-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "smartmoving-reference-data-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

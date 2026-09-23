@@ -1,11 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
   title: SmartMoving Open Customers API
-  description: 'The SmartMoving Open API lets moving companies read and write the core objects of their SmartMoving CRM and operations platform - customers, opportunities (quotes / estimates), leads, jobs (booked moves), payments, and follow-ups. The Open API is fronted by Azure API Management and is available to Growth Plan customers in two tiers: Basic (read-only, for reporting and analytics) and Premium (read/write plus webhooks, for full integration and automation). All Open API requests authenticate with an x-api-key header issued at Settings > Integrations > SmartMoving API; the Azure gateway may additionally require an Ocp-Apim-Subscription-Key.
-
-    A separate, free Lead Provider API (POST /leads/from-provider/v2) is available on every SmartMoving plan and authenticates with a per-source providerKey query parameter instead of the Open API key; it is included here for completeness.
-
-    Endpoints under Customers, Opportunities, Leads, and Jobs are confirmed against SmartMoving''s documentation and community SDKs. Reference-data endpoints for branches, users, service types, and referral sources are modeled from the documented data model and marked with x-endpoint-status; verify exact paths and shapes in the SmartMoving Developer Portal.'
+  description: The SmartMoving Open API lets moving companies read and write the core objects of their SmartMoving CRM and operations platform - customers, opportunities (quotes / estimates), leads, jobs (booked moves), payments, and follow-ups.
   version: '1.0'
   contact:
     name: SmartMoving
@@ -180,34 +176,7 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  responses:
-    Forbidden:
-      description: The API key's tier does not permit this operation (write requires Premium).
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested record was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   parameters:
-    Page:
-      name: Page
-      in: query
-      required: false
-      schema:
-        type: integer
-        default: 1
-      description: 1-based page number.
     PageSize:
       name: PageSize
       in: query
@@ -223,23 +192,41 @@ components:
       schema:
         type: string
       description: The record identifier (GUID).
+    Page:
+      name: Page
+      in: query
+      required: false
+      schema:
+        type: integer
+        default: 1
+      description: 1-based page number.
+  responses:
+    NotFound:
+      description: The requested record was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: The API key's tier does not permit this operation (write requires Premium).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    Customer:
+    Error:
       type: object
       properties:
-        id:
+        statusCode:
+          type: integer
+        message:
           type: string
-        name:
-          type: string
-        emailAddress:
-          type: string
-        phoneNumber:
-          type: string
-        address:
-          type: string
-        createdOn:
-          type: string
-          format: date-time
     Opportunity:
       type: object
       properties:
@@ -273,13 +260,22 @@ components:
           type: integer
         pageSize:
           type: integer
-    Error:
+    Customer:
       type: object
       properties:
-        statusCode:
-          type: integer
-        message:
+        id:
           type: string
+        name:
+          type: string
+        emailAddress:
+          type: string
+        phoneNumber:
+          type: string
+        address:
+          type: string
+        createdOn:
+          type: string
+          format: date-time
   securitySchemes:
     apiKeyAuth:
       type: apiKey
