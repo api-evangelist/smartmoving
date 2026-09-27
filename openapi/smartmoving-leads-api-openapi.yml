@@ -97,6 +97,13 @@ paths:
           $ref: '#/components/responses/Forbidden'
 components:
   parameters:
+    IdPath:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The record identifier (GUID).
     PageSize:
       name: PageSize
       in: query
@@ -105,13 +112,6 @@ components:
         type: integer
         default: 25
       description: Number of records per page.
-    IdPath:
-      name: id
-      in: path
-      required: true
-      schema:
-        type: string
-      description: The record identifier (GUID).
     Page:
       name: Page
       in: query
@@ -121,8 +121,8 @@ components:
         default: 1
       description: 1-based page number.
   responses:
-    NotFound:
-      description: The requested record was not found.
+    Unauthorized:
+      description: Missing or invalid API key.
       content:
         application/json:
           schema:
@@ -133,13 +133,20 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API key.
+    NotFound:
+      description: The requested record was not found.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
   schemas:
+    Error:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+        message:
+          type: string
     LeadList:
       type: object
       properties:
@@ -153,13 +160,6 @@ components:
           type: integer
         pageSize:
           type: integer
-    Error:
-      type: object
-      properties:
-        statusCode:
-          type: integer
-        message:
-          type: string
     Lead:
       type: object
       properties:

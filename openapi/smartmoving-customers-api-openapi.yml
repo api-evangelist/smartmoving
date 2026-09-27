@@ -177,6 +177,13 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   parameters:
+    IdPath:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The record identifier (GUID).
     PageSize:
       name: PageSize
       in: query
@@ -185,13 +192,6 @@ components:
         type: integer
         default: 25
       description: Number of records per page.
-    IdPath:
-      name: id
-      in: path
-      required: true
-      schema:
-        type: string
-      description: The record identifier (GUID).
     Page:
       name: Page
       in: query
@@ -201,8 +201,8 @@ components:
         default: 1
       description: 1-based page number.
   responses:
-    NotFound:
-      description: The requested record was not found.
+    Unauthorized:
+      description: Missing or invalid API key.
       content:
         application/json:
           schema:
@@ -213,40 +213,13 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API key.
+    NotFound:
+      description: The requested record was not found.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
   schemas:
-    Error:
-      type: object
-      properties:
-        statusCode:
-          type: integer
-        message:
-          type: string
-    Opportunity:
-      type: object
-      properties:
-        id:
-          type: string
-        quoteNumber:
-          type: string
-        customerId:
-          type: string
-        branchId:
-          type: string
-        status:
-          type: string
-        serviceType:
-          type: string
-        moveDate:
-          type: string
-          format: date
-        estimatedTotal:
-          type: number
     CustomerList:
       type: object
       properties:
@@ -276,6 +249,33 @@ components:
         createdOn:
           type: string
           format: date-time
+    Error:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+        message:
+          type: string
+    Opportunity:
+      type: object
+      properties:
+        id:
+          type: string
+        quoteNumber:
+          type: string
+        customerId:
+          type: string
+        branchId:
+          type: string
+        status:
+          type: string
+        serviceType:
+          type: string
+        moveDate:
+          type: string
+          format: date
+        estimatedTotal:
+          type: number
   securitySchemes:
     apiKeyAuth:
       type: apiKey

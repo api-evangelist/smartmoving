@@ -128,7 +128,21 @@ paths:
         '403':
           $ref: '#/components/responses/Forbidden'
 components:
+  parameters:
+    IdPath:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The record identifier (GUID).
   responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     NotFound:
       description: The requested record was not found.
       content:
@@ -141,13 +155,21 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
+    Payment:
+      type: object
+      properties:
+        id:
+          type: string
+        opportunityId:
+          type: string
+        amount:
+          type: number
+        method:
+          type: string
+        receivedOn:
+          type: string
+          format: date-time
     Error:
       type: object
       properties:
@@ -175,28 +197,6 @@ components:
           format: date
         estimatedTotal:
           type: number
-    Payment:
-      type: object
-      properties:
-        id:
-          type: string
-        opportunityId:
-          type: string
-        amount:
-          type: number
-        method:
-          type: string
-        receivedOn:
-          type: string
-          format: date-time
-  parameters:
-    IdPath:
-      name: id
-      in: path
-      required: true
-      schema:
-        type: string
-      description: The record identifier (GUID).
   securitySchemes:
     apiKeyAuth:
       type: apiKey
