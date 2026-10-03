@@ -136,26 +136,27 @@ components:
       schema:
         type: string
       description: The record identifier (GUID).
-  responses:
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested record was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Forbidden:
-      description: The API key's tier does not permit this operation (write requires Premium).
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
+    Opportunity:
+      type: object
+      properties:
+        id:
+          type: string
+        quoteNumber:
+          type: string
+        customerId:
+          type: string
+        branchId:
+          type: string
+        status:
+          type: string
+        serviceType:
+          type: string
+        moveDate:
+          type: string
+          format: date
+        estimatedTotal:
+          type: number
     Payment:
       type: object
       properties:
@@ -177,26 +178,25 @@ components:
           type: integer
         message:
           type: string
-    Opportunity:
-      type: object
-      properties:
-        id:
-          type: string
-        quoteNumber:
-          type: string
-        customerId:
-          type: string
-        branchId:
-          type: string
-        status:
-          type: string
-        serviceType:
-          type: string
-        moveDate:
-          type: string
-          format: date
-        estimatedTotal:
-          type: number
+  responses:
+    NotFound:
+      description: The requested record was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: The API key's tier does not permit this operation (write requires Premium).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     apiKeyAuth:
       type: apiKey

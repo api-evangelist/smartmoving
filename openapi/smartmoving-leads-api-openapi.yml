@@ -96,6 +96,49 @@ paths:
         '403':
           $ref: '#/components/responses/Forbidden'
 components:
+  schemas:
+    Lead:
+      type: object
+      properties:
+        id:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        phoneNumber:
+          type: string
+        email:
+          type: string
+        status:
+          type: string
+        referralSource:
+          type: string
+        branchId:
+          type: string
+        createdOn:
+          type: string
+          format: date-time
+    Error:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+        message:
+          type: string
+    LeadList:
+      type: object
+      properties:
+        pageResults:
+          type: array
+          items:
+            $ref: '#/components/schemas/Lead'
+        totalResults:
+          type: integer
+        page:
+          type: integer
+        pageSize:
+          type: integer
   parameters:
     IdPath:
       name: id
@@ -127,61 +170,18 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Forbidden:
-      description: The API key's tier does not permit this operation (write requires Premium).
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     NotFound:
       description: The requested record was not found.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-  schemas:
-    Error:
-      type: object
-      properties:
-        statusCode:
-          type: integer
-        message:
-          type: string
-    LeadList:
-      type: object
-      properties:
-        pageResults:
-          type: array
-          items:
-            $ref: '#/components/schemas/Lead'
-        totalResults:
-          type: integer
-        page:
-          type: integer
-        pageSize:
-          type: integer
-    Lead:
-      type: object
-      properties:
-        id:
-          type: string
-        firstName:
-          type: string
-        lastName:
-          type: string
-        phoneNumber:
-          type: string
-        email:
-          type: string
-        status:
-          type: string
-        referralSource:
-          type: string
-        branchId:
-          type: string
-        createdOn:
-          type: string
-          format: date-time
+    Forbidden:
+      description: The API key's tier does not permit this operation (write requires Premium).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     apiKeyAuth:
       type: apiKey

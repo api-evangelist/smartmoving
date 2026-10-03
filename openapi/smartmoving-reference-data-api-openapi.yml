@@ -96,6 +96,17 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
+    Branch:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        phoneNumber:
+          type: string
+        address:
+          type: string
     User:
       type: object
       properties:
@@ -113,17 +124,6 @@ components:
         statusCode:
           type: integer
         message:
-          type: string
-    Branch:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        phoneNumber:
-          type: string
-        address:
           type: string
   responses:
     Unauthorized:
