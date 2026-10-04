@@ -96,6 +96,30 @@ paths:
         '403':
           $ref: '#/components/responses/Forbidden'
 components:
+  parameters:
+    IdPath:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The record identifier (GUID).
+    PageSize:
+      name: PageSize
+      in: query
+      required: false
+      schema:
+        type: integer
+        default: 25
+      description: Number of records per page.
+    Page:
+      name: Page
+      in: query
+      required: false
+      schema:
+        type: integer
+        default: 1
+      description: 1-based page number.
   schemas:
     Lead:
       type: object
@@ -139,30 +163,6 @@ components:
           type: integer
         pageSize:
           type: integer
-  parameters:
-    IdPath:
-      name: id
-      in: path
-      required: true
-      schema:
-        type: string
-      description: The record identifier (GUID).
-    PageSize:
-      name: PageSize
-      in: query
-      required: false
-      schema:
-        type: integer
-        default: 25
-      description: Number of records per page.
-    Page:
-      name: Page
-      in: query
-      required: false
-      schema:
-        type: integer
-        default: 1
-      description: 1-based page number.
   responses:
     Unauthorized:
       description: Missing or invalid API key.
@@ -170,14 +170,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested record was not found.
+    Forbidden:
+      description: The API key's tier does not permit this operation (write requires Premium).
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Forbidden:
-      description: The API key's tier does not permit this operation (write requires Premium).
+    NotFound:
+      description: The requested record was not found.
       content:
         application/json:
           schema:
