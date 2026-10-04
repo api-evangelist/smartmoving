@@ -206,6 +206,9 @@ apis:
   - type: Documentation
     url: https://smartmoving-prod-api-management.developer.azure-api.net/webhook-document
 common:
+- type: CapabilityMap
+  url: capabilities/smartmoving-capability-edges.yml
+  name: SmartMoving Business Capability Map
 - type: AgenticAccess
   url: agentic-access/smartmoving-agentic-access.yml
 - type: DomainSecurity

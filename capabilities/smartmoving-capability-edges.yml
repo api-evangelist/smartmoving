@@ -1,0 +1,54 @@
+slug: smartmoving
+provider: SmartMoving
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 4
+edges:
+- tag: Leads
+  spec_file: smartmoving-leads-api-openapi.yml
+  capability_id: BC-410.30
+  capability_id_l1: BC-410
+  capability_name: Opportunity & Pipeline Management
+  confidence: 0.85
+  evidence: GET /leads listLeads; GET /leads/statuses listLeadStatuses; GET /leads/salesperson/{id} listLeadsBySalesperson
+  reason: Lead records, lead statuses and lead assignment to salespeople are squarely the lead/opportunity
+    lifecycle in a sales CRM.
+- tag: Customers
+  spec_file: smartmoving-customers-api-openapi.yml
+  capability_id: BC-420.10
+  capability_id_l1: BC-420
+  capability_name: Customer Data Management
+  confidence: 0.8
+  evidence: 'POST /customers createCustomer Create a customer (Premium); GET /customers/search searchCustomers;
+    schemas: Customer, CustomerList'
+  reason: CRUD and search over the CRM customer master record, including linked opportunities and storage
+    accounts — customer data management rather than service or billing.
+- tag: Opportunities
+  spec_file: smartmoving-opportunities-api-openapi.yml
+  capability_id: BC-410.30
+  capability_id_l1: BC-410
+  capability_name: Opportunity & Pipeline Management
+  confidence: 0.75
+  evidence: 'GET /opportunities/quote/{quoteNumber} getOpportunityByQuote; GET /opportunities/{id}/follow-ups;
+    description: ''opportunities (quotes / estimates)'''
+  reason: Opportunity retrieval (including by quote number), payments on the opportunity and sales follow-ups
+    are deal/pipeline management; some ambiguity with quote management.
+- tag: Lead Provider
+  spec_file: smartmoving-lead-provider-api-openapi.yml
+  capability_id: BC-410.30
+  capability_id_l1: BC-410
+  capability_name: Opportunity & Pipeline Management
+  confidence: 0.7
+  evidence: POST /leads/from-provider/v2 createLeadFromProvider Submit a lead from a provider; schema
+    ProviderLead
+  reason: Inbound lead capture from third-party lead providers into the CRM pipeline, which is the lead
+    stage of opportunity/pipeline management.
